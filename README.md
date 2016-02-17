@@ -28,7 +28,7 @@ To generate your new Bot, you need an Access Token. Talk to [BotFather](https://
 For full details, see "[Bots: An introduction for developers](https://core.telegram.org/bots)".
 
 ## Credits
-The projes was inspired by the works of [Giancarlo Bacchio](https://github.com/Gianbacchio)
+The project was inspired by the works of [Giancarlo Bacchio](https://github.com/Gianbacchio)
 
 
 ## License
