@@ -5,9 +5,9 @@ A project by [Casa Jasmina](http://casajasmina.arduino.cc/)
 
 ## Introduction
 
-This library provides an interface for [Telegram Bot API](https://core.telegram.org/bots/api).
+This library allow you to host a Telegram Bot on your Arduino, and interact with telegram bot API.
 
-It is possible to define your personal Bot, make it able to read and write messages, receive orders and report data collected from the field.
+At the moment it works only on [Arduino Zero](https://www.arduino.cc/en/Main/ArduinoBoardZero) with the [WiFi shield 101](https://www.arduino.cc/en/Main/ArduinoWiFiShield101).
 
 ## Installing
 
@@ -28,7 +28,7 @@ To generate your new Bot, you need an Access Token. Talk to [BotFather](https://
 For full details, see "[Bots: An introduction for developers](https://core.telegram.org/bots)".
 
 ## Credits
-The project was inspired by the works of [Giancarlo Bacchio](https://github.com/Gianbacchio)
+The project was inspired by [Giancarlo Bacchio](https://github.com/Gianbacchio)
 
 
 ## License
