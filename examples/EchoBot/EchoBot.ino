@@ -24,7 +24,7 @@ const String BotUsername = "zzzz";
 
 
 WiFiSSLClient client;
-TelegramBot bot (client);
+TelegramBot bot (BotToken, BotName, BotUsername, client);
 
 
 void setup() {
@@ -45,7 +45,7 @@ void setup() {
   Serial.println("WiFi connected");
 
 
-  bot.begin(BotToken, BotName, BotUsername);
+  bot.begin();
 
 }
 
