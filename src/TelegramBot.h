@@ -11,8 +11,10 @@
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
-#include<WiFiSSLClient.h>
 #include<Client.h>
+
+#define HOST "api.telegram.org"
+#define SSL_PORT 443
 
 struct message{
   String text;
@@ -24,20 +26,20 @@ struct message{
 class TelegramBot
 {
   public:
-    TelegramBot(Client &_client);
-  	void begin(String, String, String);
+    TelegramBot(String token, String name, String username, Client &_client);
+  	void begin();
   	void sendMessage(String chat_id, String my_text);
   	message getUpdates();
-    String _token;
-    String _name;
-    String _username;
-  private:
-    String sendRequest(String command);
-    String last_message_recived;
-    Client *client;
-    const char *host="api.telegram.org";
-    const int httpsPort = 443;
 
+  private:
+      String _token;
+      String _name;
+      String _username;
+
+      String sendRequest(String command);
+      String last_message_recived;
+
+      Client *client;
 };
 
 #endif

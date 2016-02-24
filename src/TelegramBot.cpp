@@ -9,23 +9,19 @@
 #include "TelegramBot.h"
 
 
-TelegramBot::TelegramBot(Client &_client)	{
+TelegramBot::TelegramBot(String token, String name, String username, Client &_client)	{
 	client = &_client;
 
+	this->_token=token;
+	this->_name=name;
+	this->_username=username;
 }
 
-void TelegramBot::begin(String token, String name, String username)	{
-	_token=token;
-	_name=name;
-	_username=username;
+void TelegramBot::begin()	{
 	last_message_recived="";
 
-
-	client->connect(host, httpsPort);
-
+	client->connect(HOST, SSL_PORT);
 }
-
-
 
 /**************************************************************************************************
  * sendRequest- function to achieve connection to api.telegram.org and send command to telegram *                                                                 *
@@ -35,7 +31,7 @@ String TelegramBot::sendRequest(String command)  {
 
 	while(!client->connected()){
 		Serial.println("trying to connect...");
-		client->connect(host, httpsPort);
+		client->connect(HOST, SSL_PORT);
 		delay (1000);
 	}
 			//Send your request to api.telegram.org
@@ -67,17 +63,11 @@ return payload;
 /************************************************************************************
  * GetUpdates - function to receive messages from telegram as a Json and parse them *
  ************************************************************************************/
-
-
 message TelegramBot::getUpdates()  {
-
     String command="getUpdates?offset="+last_message_recived;
     String payload=sendRequest(command);       //recieve reply from telegram.org
 
-		String text;
-		String sender;
-		String chat_id;
-		String date;
+	message m;
 
     if (payload!="") {
 
@@ -96,10 +86,10 @@ message TelegramBot::getUpdates()  {
 					String _text = root["result"][1]["message"]["text"];
 					String _chat_id = root["result"][1]["message"]["chat"]["id"];
 					String _date = root["result"][1]["message"]["date"];
-					sender = _sender;
-					text = _text;
-					chat_id = _chat_id;
-					date = _date;
+					m.sender = _sender;
+					m.text = _text;
+					m.chat_id = _chat_id;
+					m.date = _date;
 					last_message_recived=update_id;
 
 				}
@@ -108,10 +98,10 @@ message TelegramBot::getUpdates()  {
 				String _text = root["result"][0]["message"]["text"];
 				String _chat_id = root["result"][0]["message"]["chat"]["id"];
 				String _date = root["result"][0]["message"]["date"];
-				sender = _sender;
-				text = _text;
-				chat_id = _chat_id;
-				date = _date;
+				m.sender = _sender;
+				m.text = _text;
+				m.chat_id = _chat_id;
+				m.date = _date;
 				last_message_recived=update_id;
 			}
 
@@ -120,7 +110,6 @@ message TelegramBot::getUpdates()  {
 			}
 		}
 
-		message m = { text, chat_id, sender, date };
 		return m;
 	}
 
@@ -129,7 +118,6 @@ message TelegramBot::getUpdates()  {
  ***********************************************************************/
 
 void TelegramBot::sendMessage(String chat_id, String my_text)  {
-
         String command="sendMessage?chat_id="+chat_id+"&text="+my_text+"&reply_markup=";
         String payload=sendRequest(command);
 		 }
