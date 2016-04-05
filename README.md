@@ -27,6 +27,23 @@ To generate your new Bot, you need an Access Token. Talk to [BotFather](https://
 
 For full details, see "[Bots: An introduction for developers](https://core.telegram.org/bots)".
 
+## Api Reference
+```c++
+TelegramBot(const char* token, const char* name, const char* username, Client &client);
+```
+```c++
+String sendMessage(const char* chat_id, const char* my_text);
+```
+```c++
+String sendMessage(const char* chat_id, const char* my_text, String markup[], int nrows, int ncolumns, bool one_time_keyboard = true, bool resize_keyboard = true);
+```
+```c++
+String postMessage(String msg);
+```
+```c++
+message getUpdates();
+```
+
 ## Credits
 The project was inspired by [Giancarlo Bacchio](https://github.com/Gianbacchio)
 
