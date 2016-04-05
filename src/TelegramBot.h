@@ -23,7 +23,7 @@ struct message{
   const char* date;
 };
 
-class TelegramBotato
+class TelegramBot
 {
   public:
     TelegramBot(const char* token, const char* name, const char* username, Client &client);
