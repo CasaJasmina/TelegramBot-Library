@@ -5,9 +5,9 @@ A project by [Casa Jasmina](http://casajasmina.arduino.cc/)
 
 ## Introduction
 
-This library allow you to host a Telegram Bot on your Arduino, and interact with telegram bot API.
+This library allows you to host a Telegram Bot on your Arduino, and interact with telegram bot API.
 
-At the moment it works only on [Arduino Zero](https://www.arduino.cc/en/Main/ArduinoBoardZero) with the [WiFi shield 101](https://www.arduino.cc/en/Main/ArduinoWiFiShield101).
+It works on [Arduino/Genuino MKR1000] (http://www.arduino.cc/en/Main/ArduinoMKR1000), and on [Arduino Zero](https://www.arduino.cc/en/Main/ArduinoBoardZero) with the [WiFi shield 101](https://www.arduino.cc/en/Main/ArduinoWiFiShield101).
 
 ## Installing
 
@@ -43,10 +43,6 @@ String postMessage(String msg);
 ```c++
 message getUpdates();
 ```
-
-## Credits
-The project was inspired by [Giancarlo Bacchio](https://github.com/Gianbacchio)
-
 
 ## License
 

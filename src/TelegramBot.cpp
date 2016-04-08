@@ -91,7 +91,7 @@ String TelegramBot::sendMessage(const char* chat_id, const char* text)  {
 	}
 
 // send a message to a telegram chat with a reply markup
-String TelegramBot::sendMessage(const char* chat_id, const char* my_text, String markup[], int nrows, int ncolumns, bool one_time_keyboard, bool resize_keyboard)  {
+String TelegramBot::sendMessage(const char* chat_id, const char* my_text, String markup[], int nrows, int ncolumns, bool one_time_keyboard)  {
 		StaticJsonBuffer<JSON_BUFF_SIZE> jsonBuffer;
 		JsonObject& mkp = jsonBuffer.createObject();
 		mkp["chat_id"] = chat_id;
@@ -108,11 +108,10 @@ String TelegramBot::sendMessage(const char* chat_id, const char* my_text, String
 		}
 
 		reply_markup.set<bool>("one_time_keyboard", one_time_keyboard);
-		reply_markup.set<bool>("resize_keyboard", resize_keyboard);
+		reply_markup.set<bool>("resize_keyboard", true);
 
 		String msg;
 		mkp.printTo(msg);
-		Serial.println(msg);
 		return postMessage(msg);
 }
 

@@ -29,7 +29,7 @@ class TelegramBot
     TelegramBot(const char* token, const char* name, const char* username, Client &client);
   	void begin();
     String sendMessage(const char* chat_id, const char* my_text);
-    String sendMessage(const char* chat_id, const char* my_text, String markup[], int nrows, int ncolumns, bool one_time_keyboard = true, bool resize_keyboard = true);
+    String sendMessage(const char* chat_id, const char* my_text, String markup[], int nrows, int ncolumns, bool one_time_keyboard = true);
     String postMessage(String msg);
     message getUpdates();
 
