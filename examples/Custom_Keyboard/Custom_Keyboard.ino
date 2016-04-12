@@ -65,9 +65,8 @@ void loop() {
   String ButtonsLayout[] = { "On", "Off" };
   
   message m = bot.getUpdates(); // Read new messages
-  String text(m.text); // convert a char array in String
   
-  if ( text.equals("Start")) { // check for a Start message 
+  if ( m.text.equals("Start")) { // check for a Start message 
     started = true;
 
     // m.chat_id = a unique number for every chat 
@@ -82,11 +81,11 @@ void loop() {
 
 
 
-  if ( text.equals("On") && started == true) {
+  if ( m.text.equals("On") && started == true) {
     digitalWrite(ledPin, HIGH);
     bot.sendMessage(m.chat_id,"Led On!", ButtonsLayout , 1, 2, false);
   }
-  else if ( text.equals("Off") && started == true) {
+  else if ( m.text.equals("Off") && started == true) {
     digitalWrite(ledPin, LOW);
     bot.sendMessage(m.chat_id,"Led Off!", ButtonsLayout , 1, 2, false);
   }

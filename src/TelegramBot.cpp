@@ -52,17 +52,25 @@ message TelegramBot::getUpdates()  {
 				if(update_id.equals("")){
 					Serial.println("no new messages");
 				}else{
-					m.sender = root["result"][1]["message"]["from"]["username"];
-					m.text = root["result"][1]["message"]["text"];
-					m.chat_id = root["result"][1]["message"]["chat"]["id"];
-					m.date = root["result"][1]["message"]["date"];
+					String sender = root["result"][1]["message"]["from"]["username"];
+					String text = root["result"][1]["message"]["text"];
+					String chat_id = root["result"][1]["message"]["chat"]["id"];
+					String date = root["result"][1]["message"]["date"];
+					m.sender = sender;
+					m.text = text;
+					m.chat_id = chat_id;
+					m.date = date;
 					last_message_recived=update_id;
 				}
 			}else{
-				m.sender = root["result"][0]["message"]["from"]["username"];
-				m.text = root["result"][0]["message"]["text"];
-				m.chat_id = root["result"][0]["message"]["chat"]["id"];
-				m.date = root["result"][0]["message"]["date"];
+				String sender = root["result"][0]["message"]["from"]["username"];
+				String text = root["result"][0]["message"]["text"];
+				String chat_id = root["result"][0]["message"]["chat"]["id"];
+				String date = root["result"][0]["message"]["date"];
+				m.sender = sender;
+				m.text = text;
+				m.chat_id = chat_id;
+				m.date = date;
 				last_message_recived=update_id;
 			}
 
@@ -75,7 +83,7 @@ message TelegramBot::getUpdates()  {
 
 // send message function
 // send a simple text message to a telegram char
-String TelegramBot::sendMessage(const char* chat_id, const char* text)  {
+String TelegramBot::sendMessage(String chat_id, String text)  {
 		while(!client->connected()){
 			begin();
 		}
@@ -91,7 +99,7 @@ String TelegramBot::sendMessage(const char* chat_id, const char* text)  {
 	}
 
 // send a message to a telegram chat with a reply markup
-String TelegramBot::sendMessage(const char* chat_id, const char* my_text, String markup[], int nrows, int ncolumns, bool one_time_keyboard)  {
+String TelegramBot::sendMessage(String chat_id, String my_text, String markup[], int nrows, int ncolumns, bool one_time_keyboard)  {
 		StaticJsonBuffer<JSON_BUFF_SIZE> jsonBuffer;
 		JsonObject& mkp = jsonBuffer.createObject();
 		mkp["chat_id"] = chat_id;
