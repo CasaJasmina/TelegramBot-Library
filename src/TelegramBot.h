@@ -4,23 +4,23 @@
 // TelegramBot library
 // https://github.com/CasaJasmina/TelegramBot-Library
 
-
 #ifndef TelegramBot_h
 #define TelegramBot_h
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <Client.h>
+#include <TelegramKeyboard.h>
 
 #define HOST "api.telegram.org"
 #define SSL_PORT 443
-#define JSON_BUFF_SIZE 2000
+#define JSON_BUFF_SIZE 10000
 
 struct message{
-  String text;
-  String chat_id;
-  String sender;
-  String date;
+  const char* text;
+  const char* chat_id;
+  const char* sender;
+  const char* date;
 };
 
 class TelegramBot
@@ -28,11 +28,10 @@ class TelegramBot
   public:
     TelegramBot(const char* token, const char* name, const char* username, Client &client);
   	void begin();
-    String sendMessage(String chat_id, String my_text);
-    String sendMessage(String chat_id, String my_text, String markup[], int nrows, int ncolumns, bool one_time_keyboard = true);
+    String sendMessage(const char* chat_id, const char* text);
+    String sendMessage(const char* chat_id, const char* text, TelegramKeyboard &keyboard_markup, bool one_time_keyboard = true, bool resize_keyboard = true);
     String postMessage(String msg);
     message getUpdates();
-
 
   private:
       String readPayload();

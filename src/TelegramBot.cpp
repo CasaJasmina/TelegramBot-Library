@@ -16,9 +16,8 @@ TelegramBot::TelegramBot(const char* token, const char* name, const char* userna
 
 void TelegramBot::begin()	{
 	while(!client->connected()){
-		Serial.println("trying to connect...");
 		client->connect(HOST, SSL_PORT);
-		delay (1000);
+		delay (2000);
 	}
 }
 
@@ -26,9 +25,7 @@ void TelegramBot::begin()	{
  * GetUpdates - function to receive messages from telegram as a Json and parse them *
  ************************************************************************************/
 message TelegramBot::getUpdates()  {
-		while(!client->connected()){
-			begin();
-		}
+		begin();
 
 		//Send your request to api.telegram.org
 		String getRequest = "GET /bot"+String(token)+"/getUpdates?offset="+last_message_recived+" HTTP/1.1";
@@ -50,32 +47,24 @@ message TelegramBot::getUpdates()  {
 				String update_id = root["result"][1]["update_id"];
 
 				if(update_id.equals("")){
-					Serial.println("no new messages");
+					// Serial.println("no new messages");
 				}else{
-					String sender = root["result"][1]["message"]["from"]["username"];
-					String text = root["result"][1]["message"]["text"];
-					String chat_id = root["result"][1]["message"]["chat"]["id"];
-					String date = root["result"][1]["message"]["date"];
-					m.sender = sender;
-					m.text = text;
-					m.chat_id = chat_id;
-					m.date = date;
+					m.sender = root["result"][1]["message"]["from"]["username"];
+					m.text = root["result"][1]["message"]["text"];
+					m.chat_id = root["result"][1]["message"]["chat"]["id"];
+					m.date = root["result"][1]["message"]["date"];
 					last_message_recived=update_id;
 				}
 			}else{
-				String sender = root["result"][0]["message"]["from"]["username"];
-				String text = root["result"][0]["message"]["text"];
-				String chat_id = root["result"][0]["message"]["chat"]["id"];
-				String date = root["result"][0]["message"]["date"];
-				m.sender = sender;
-				m.text = text;
-				m.chat_id = chat_id;
-				m.date = date;
+				m.sender = root["result"][0]["message"]["from"]["username"];
+				m.text = root["result"][0]["message"]["text"];
+				m.chat_id = root["result"][0]["message"]["chat"]["id"];
+				m.date = root["result"][0]["message"]["date"];
 				last_message_recived=update_id;
 			}
 
 			if(!root.success()) {
-			  Serial.println("error to parse payload from telegram.org");
+			//   Serial.println("error to parse payload from telegram.org");
 			}
 		}
 		return m;
@@ -83,11 +72,7 @@ message TelegramBot::getUpdates()  {
 
 // send message function
 // send a simple text message to a telegram char
-String TelegramBot::sendMessage(String chat_id, String text)  {
-		while(!client->connected()){
-			begin();
-		}
-
+String TelegramBot::sendMessage(const char* chat_id, const char* text)  {
 		StaticJsonBuffer<JSON_BUFF_SIZE> jsonBuffer;
 		JsonObject& buff = jsonBuffer.createObject();
 		buff["chat_id"] = chat_id;
@@ -99,27 +84,28 @@ String TelegramBot::sendMessage(String chat_id, String text)  {
 	}
 
 // send a message to a telegram chat with a reply markup
-String TelegramBot::sendMessage(String chat_id, String my_text, String markup[], int nrows, int ncolumns, bool one_time_keyboard)  {
+String TelegramBot::sendMessage(const char* chat_id, const char* text, TelegramKeyboard &keyboard_markup, bool one_time_keyboard, bool resize_keyboard)  {
 		StaticJsonBuffer<JSON_BUFF_SIZE> jsonBuffer;
-		JsonObject& mkp = jsonBuffer.createObject();
-		mkp["chat_id"] = chat_id;
-		mkp["text"] = my_text;
+		JsonObject& buff = jsonBuffer.createObject();
+		buff["chat_id"] = chat_id;
+		buff["text"] = text;
 
-		JsonObject& reply_markup = mkp.createNestedObject("reply_markup");
+		JsonObject& reply_markup = buff.createNestedObject("reply_markup");
 		JsonArray& keyboard = reply_markup.createNestedArray("keyboard");
 
-		for (int a = 0 ; a < nrows ; a++){
+		for (int a = 1 ; a <= keyboard_markup.length() ; a++){
 			JsonArray& row = keyboard.createNestedArray();
-				for( int b = 0 ; b < ncolumns ; b++){
-					row.add(markup[b+(ncolumns*a)]);
+				for( int b = 1; b <= keyboard_markup.rowSize(a) ; b++){
+					row.add(keyboard_markup.getButton(a,b));
 				}
 		}
 
 		reply_markup.set<bool>("one_time_keyboard", one_time_keyboard);
-		reply_markup.set<bool>("resize_keyboard", true);
+		reply_markup.set<bool>("resize_keyboard", resize_keyboard);
 
 		String msg;
-		mkp.printTo(msg);
+		buff.printTo(msg);
+		// Serial.println(msg);
 		return postMessage(msg);
 }
 
@@ -127,9 +113,7 @@ String TelegramBot::sendMessage(String chat_id, String my_text, String markup[],
 // posts the message to telegram
 // returns the payload
 String TelegramBot::postMessage(String msg) {
-		 while(!client->connected()){
-			 begin();
-		 }
+		begin();
 
 		client->println("POST /bot"+String(token)+"/sendMessage"+" HTTP/1.1");
 		client->println("Host: api.telegram.org");
@@ -156,5 +140,6 @@ String TelegramBot::readPayload(){
 		 }
 	  }
 	payload = client->readStringUntil('\r');
+	// Serial.println(payload);
 	return payload;
 }
