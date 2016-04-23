@@ -35,13 +35,22 @@ TelegramBot(const char* token, const char* name, const char* username, Client &c
 String sendMessage(const char* chat_id, const char* my_text);
 ```
 ```c++
-String sendMessage(const char* chat_id, const char* my_text, String markup[], int nrows, int ncolumns, bool one_time_keyboard = true, bool resize_keyboard = true);
+String sendMessage(const char* chat_id, const char* my_text, Keyboard keyboard, bool one_time_keyboard = true, bool resize_keyboard = true);
 ```
 ```c++
 String postMessage(String msg);
 ```
 ```c++
 message getUpdates();
+```
+
+```c++
+struct message{
+  const char* text;
+  const char* chat_id;
+  const char* sender;
+  const char* date;
+};
 ```
 
 ## License
