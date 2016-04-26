@@ -18,9 +18,9 @@ char pass[] = "yyyy";           // your network key
 
 
 // Initialize Telegram BOT
-const String BotToken = "xxxx";
-const String BotName = "yyyy";
-const String BotUsername = "zzzz";
+const char BotToken[] = "xxxx";
+const char BotName[] = "yyyy";
+const char BotUsername[] = "zzzz";
 
 
 WiFiSSLClient client;
@@ -48,8 +48,9 @@ void setup() {
   const char* row_two[] = {"one", "two", "thee", "hello!"};
 
   // assing a row to one or more keyboards
-  keyboard.addRow(x, 2);
-  keyboard.addRow(y, 4);
+  // second argument is the length of the row
+  keyboard_one.addRow(row_one, 2);
+  keyboard_one.addRow(row_two, 4);
 
   bot.begin();
 

@@ -18,9 +18,9 @@ char pass[] = "yyyy";           // your network key
 
 
 // Initialize Telegram BOT
-const String BotToken = "xxxx";
-const String BotName = "yyyy";
-const String BotUsername = "zzzz";
+const char BotToken[] = "xxxx";
+const char BotName[] = "yyyy";
+const char BotUsername[] = "zzzz";
 
 
 WiFiSSLClient client;
