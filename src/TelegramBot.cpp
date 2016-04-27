@@ -41,13 +41,15 @@ message TelegramBot::getUpdates()  {
 			StaticJsonBuffer<JSON_BUFF_SIZE> jsonBuffer;
 			JsonObject & root = jsonBuffer.parseObject(payload);
 			int update_id = root["result"][1]["update_id"];
-
 			if(last_message_recived != update_id){
-				Serial.println(payload);
-				m.sender = root["result"][1]["message"]["from"]["username"];
-				m.text = root["result"][1]["message"]["text"];
+				String sender = root["result"][1]["message"]["from"]["username"];
+				String text = root["result"][1]["message"]["text"];
 				m.chat_id = root["result"][1]["message"]["chat"]["id"];
-				m.date = root["result"][1]["message"]["date"];
+				String date = root["result"][1]["message"]["date"];
+
+				m.sender = sender;
+				m.text = text;
+				m.date = date;
 				last_message_recived=update_id;
 				return m;
 			}else{
@@ -59,7 +61,7 @@ message TelegramBot::getUpdates()  {
 
 // send message function
 // send a simple text message to a telegram char
-String TelegramBot::sendMessage(int chat_id, const char* text)  {
+String TelegramBot::sendMessage(int chat_id, String text)  {
 		StaticJsonBuffer<JSON_BUFF_SIZE> jsonBuffer;
 		JsonObject& buff = jsonBuffer.createObject();
 		buff["chat_id"] = chat_id;
@@ -71,7 +73,7 @@ String TelegramBot::sendMessage(int chat_id, const char* text)  {
 	}
 
 // send a message to a telegram chat with a reply markup
-String TelegramBot::sendMessage(int chat_id, const char* text, TelegramKeyboard &keyboard_markup, bool one_time_keyboard, bool resize_keyboard)  {
+String TelegramBot::sendMessage(int chat_id, String text, TelegramKeyboard &keyboard_markup, bool one_time_keyboard, bool resize_keyboard)  {
 		StaticJsonBuffer<JSON_BUFF_SIZE> jsonBuffer;
 		JsonObject& buff = jsonBuffer.createObject();
 		buff["chat_id"] = chat_id;
