@@ -36,7 +36,6 @@ String TelegramKeyboard::getButton(int nrow, int nbutton){
     first  = rows[nrow-1];
 
     for (int i = 0; i < nbutton-1 ; i++){
-    // while (first->next != NULL){
         first = first->next;
     }
 

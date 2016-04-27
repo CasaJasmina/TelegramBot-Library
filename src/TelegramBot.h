@@ -18,7 +18,7 @@
 
 struct message{
   const char* text;
-  const char* chat_id;
+  int chat_id;
   const char* sender;
   const char* date;
 };
@@ -28,8 +28,8 @@ class TelegramBot
   public:
     TelegramBot(const char* token, const char* name, const char* username, Client &client);
   	void begin();
-    String sendMessage(const char* chat_id, const char* text);
-    String sendMessage(const char* chat_id, const char* text, TelegramKeyboard &keyboard_markup, bool one_time_keyboard = true, bool resize_keyboard = true);
+    String sendMessage(int chat_id, const char* text);
+    String sendMessage(int chat_id, const char* text, TelegramKeyboard &keyboard_markup, bool one_time_keyboard = true, bool resize_keyboard = true);
     String postMessage(String msg);
     message getUpdates();
 
@@ -39,7 +39,7 @@ class TelegramBot
       const char* name;
       const char* username;
 
-      String last_message_recived="";
+      int last_message_recived;
 
       Client *client;
 };

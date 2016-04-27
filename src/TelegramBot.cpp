@@ -28,7 +28,7 @@ message TelegramBot::getUpdates()  {
 		begin();
 
 		//Send your request to api.telegram.org
-		String getRequest = "GET /bot"+String(token)+"/getUpdates?offset="+last_message_recived+" HTTP/1.1";
+		String getRequest = "GET /bot"+String(token)+"/getUpdates?offset="+String(last_message_recived)+" HTTP/1.1";
 		client->println(getRequest);
 		client->println("User-Agent: curl/7.37.1");
 		client->println("Host: api.telegram.org");
@@ -36,43 +36,30 @@ message TelegramBot::getUpdates()  {
 		client->println();
 
 		String payload = readPayload();
-
-		message m;
-	    if (payload!="") {
+	    if (payload != "") {
+			message m;
 			StaticJsonBuffer<JSON_BUFF_SIZE> jsonBuffer;
 			JsonObject & root = jsonBuffer.parseObject(payload);
-			String update_id = root["result"][0]["update_id"];
+			int update_id = root["result"][1]["update_id"];
 
-			if(last_message_recived.equals(update_id)){
-				String update_id = root["result"][1]["update_id"];
-
-				if(update_id.equals("")){
-					// Serial.println("no new messages");
-				}else{
-					m.sender = root["result"][1]["message"]["from"]["username"];
-					m.text = root["result"][1]["message"]["text"];
-					m.chat_id = root["result"][1]["message"]["chat"]["id"];
-					m.date = root["result"][1]["message"]["date"];
-					last_message_recived=update_id;
-				}
-			}else{
-				m.sender = root["result"][0]["message"]["from"]["username"];
-				m.text = root["result"][0]["message"]["text"];
-				m.chat_id = root["result"][0]["message"]["chat"]["id"];
-				m.date = root["result"][0]["message"]["date"];
+			if(last_message_recived != update_id){
+				Serial.println(payload);
+				m.sender = root["result"][1]["message"]["from"]["username"];
+				m.text = root["result"][1]["message"]["text"];
+				m.chat_id = root["result"][1]["message"]["chat"]["id"];
+				m.date = root["result"][1]["message"]["date"];
 				last_message_recived=update_id;
-			}
-
-			if(!root.success()) {
-			//   Serial.println("error to parse payload from telegram.org");
+				return m;
+			}else{
+				m.chat_id = 0;
+				return m;
 			}
 		}
-		return m;
 	}
 
 // send message function
 // send a simple text message to a telegram char
-String TelegramBot::sendMessage(const char* chat_id, const char* text)  {
+String TelegramBot::sendMessage(int chat_id, const char* text)  {
 		StaticJsonBuffer<JSON_BUFF_SIZE> jsonBuffer;
 		JsonObject& buff = jsonBuffer.createObject();
 		buff["chat_id"] = chat_id;
@@ -84,7 +71,7 @@ String TelegramBot::sendMessage(const char* chat_id, const char* text)  {
 	}
 
 // send a message to a telegram chat with a reply markup
-String TelegramBot::sendMessage(const char* chat_id, const char* text, TelegramKeyboard &keyboard_markup, bool one_time_keyboard, bool resize_keyboard)  {
+String TelegramBot::sendMessage(int chat_id, const char* text, TelegramKeyboard &keyboard_markup, bool one_time_keyboard, bool resize_keyboard)  {
 		StaticJsonBuffer<JSON_BUFF_SIZE> jsonBuffer;
 		JsonObject& buff = jsonBuffer.createObject();
 		buff["chat_id"] = chat_id;
@@ -102,6 +89,7 @@ String TelegramBot::sendMessage(const char* chat_id, const char* text, TelegramK
 
 		reply_markup.set<bool>("one_time_keyboard", one_time_keyboard);
 		reply_markup.set<bool>("resize_keyboard", resize_keyboard);
+		reply_markup.set<bool>("selective", false);
 
 		String msg;
 		buff.printTo(msg);
