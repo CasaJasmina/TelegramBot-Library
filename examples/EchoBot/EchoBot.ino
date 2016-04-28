@@ -51,9 +51,13 @@ void setup() {
 
 void loop() {
 
-  message m = bot.getUpdates(); // Read new messages
+    message m = bot.getUpdates(); // Read new messages
+    if ( m.chat_id != 0 ){ // Checks if there are some updates
+      Serial.println(m.text);
+      bot.sendMessage(m.chat_id, m.text);  // Reply to the same chat with the same text
+    } else {
+      Serial.println("no new message");
+    }
 
-  bot.sendMessage(m.chat_id, m.text);  // Reply to the same chat with the same text
-
-
+    delay(2000);
 }

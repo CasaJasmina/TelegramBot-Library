@@ -22,7 +22,6 @@ const char BotToken[] = "xxxx";
 const char BotName[] = "yyyy";
 const char BotUsername[] = "zzzz";
 
-
 WiFiSSLClient client;
 TelegramBot bot (BotToken, BotName, BotUsername, client);
 TelegramKeyboard keyboard_one;
@@ -51,7 +50,6 @@ void setup() {
   // second argument is the length of the row
   keyboard_one.addRow(row_one, 2);
   keyboard_one.addRow(row_two, 4);
-
   bot.begin();
 
 }
@@ -59,5 +57,12 @@ void setup() {
 void loop() {
 
   message m = bot.getUpdates(); // Read new messages
-  bot.sendMessage(m.chat_id, m.text, keyboard_one);  // Reply to the same chat with the same text
+  if ( m.chat_id != 0 ){ // Checks if there are some updates
+    Serial.println(m.text);
+    bot.sendMessage(m.chat_id, m.text, keyboard_one);  // Reply to the same chat with the same text
+  } else {
+    Serial.println("no new message");
+  }
+
+  delay(2000);
 }
