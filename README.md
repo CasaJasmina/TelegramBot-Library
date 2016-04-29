@@ -47,7 +47,7 @@ message getUpdates();
 ```c++
 struct message{
   const char* text;
-  const char* chat_id;
+  const int chat_id;
   const char* sender;
   const char* date;
 };
