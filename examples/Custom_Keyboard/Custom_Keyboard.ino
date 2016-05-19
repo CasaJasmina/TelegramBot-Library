@@ -1,12 +1,13 @@
 /*
-  Custom_Keyboard
+  EchoBot
 
   This example shows how to program a Telegram Bot
-  with a custom keyboard that echoes your messages.
+  that echoes your messages.
 
-*/
+ */
 
 
+#include<WiFiSSLClient.h>
 #include <WiFi101.h>
 #include <SPI.h>
 #include <TelegramBot.h>
@@ -17,10 +18,9 @@ char pass[] = "yyyy";           // your network key
 
 
 // Initialize Telegram BOT
-const char BotToken[] = "****";
-const char BotName[] = "****";
-const char BotUsername[] = "****";
-
+const char BotToken[] = "xxxx";
+const char BotName[] = "yyyy";
+const char BotUsername[] = "zzzz";
 
 WiFiSSLClient client;
 TelegramBot bot (BotToken, BotName, BotUsername, client);
@@ -42,12 +42,12 @@ void setup() {
   Serial.println("");
   Serial.println("WiFi connected");
 
-  // define your rows
+  // define your row's
   const char* row_one[] = {"true", "false"};
-  const char* row_two[] = {"one", "two", "three", "hello!"};
+  const char* row_two[] = {"one", "two", "thee", "hello!"};
 
-  // assign a row to one or more keyboards
-  // second argument is the number of buttons of that row
+  // assing a row to one or more keyboards
+  // second argument is the length of the row
   keyboard_one.addRow(row_one, 2);
   keyboard_one.addRow(row_two, 4);
   bot.begin();
@@ -56,17 +56,13 @@ void setup() {
 
 void loop() {
 
-  // Checks if there are some updates
-  message m = bot.getUpdates();
-  
-  
-  if ( m.chat_id != 0 ) { // if message received
+  message m = bot.getUpdates(); // Read new messages
+  if ( m.chat_id != 0 ){ // Checks if there are some updates
     Serial.println(m.text);
-    // Reply to the same chat with the same text
-    // last two argument: one_time_keyboard & resize_keyboard
-    bot.sendMessage(m.chat_id, m.text, keyboard_one, false, true);
+    bot.sendMessage(m.chat_id, m.text, keyboard_one);  // Reply to the same chat with the same text
   } else {
     Serial.println("no new message");
   }
 
+  delay(2000);
 }

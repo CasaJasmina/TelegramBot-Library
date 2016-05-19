@@ -7,6 +7,7 @@
  */
 
 
+#include<WiFiSSLClient.h>
 #include <WiFi101.h>
 #include <SPI.h>
 #include <TelegramBot.h>
@@ -17,9 +18,9 @@ char pass[] = "yyyy";           // your network key
 
 
 // Initialize Telegram BOT
-const char BotToken[] = "****";
-const char BotName[] = "****";
-const char BotUsername[] = "****";
+const char BotToken[] = "xxxx";
+const char BotName[] = "yyyy";
+const char BotUsername[] = "zzzz";
 
 
 WiFiSSLClient client;
@@ -29,7 +30,7 @@ TelegramBot bot (BotToken, BotName, BotUsername, client);
 void setup() {
 
   Serial.begin(115200);
- // while (!Serial) {}
+  while (!Serial) {}
   delay(3000);
 
 
@@ -49,15 +50,14 @@ void setup() {
 }
 
 void loop() {
-  
-    // Checks if there are some updates
-    message m = bot.getUpdates(); 
-    
-    if ( m.chat_id != 0 ){ // if a message is received
+
+    message m = bot.getUpdates(); // Read new messages
+    if ( m.chat_id != 0 ){ // Checks if there are some updates
       Serial.println(m.text);
       bot.sendMessage(m.chat_id, m.text);  // Reply to the same chat with the same text
     } else {
       Serial.println("no new message");
     }
 
+    delay(2000);
 }

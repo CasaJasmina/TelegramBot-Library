@@ -86,6 +86,7 @@ String TelegramBot::sendMessage(int chat_id, String text, TelegramKeyboard &keyb
 			JsonArray& row = keyboard.createNestedArray();
 				for( int b = 1; b <= keyboard_markup.rowSize(a) ; b++){
 					row.add(keyboard_markup.getButton(a,b));
+					Serial.println(b);
 				}
 		}
 
