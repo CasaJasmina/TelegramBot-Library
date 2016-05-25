@@ -4,9 +4,15 @@
   This example shows how to program a Telegram Bot
   that echoes your messages.
 
- */
+  For a step-by-step tutorial visit:
+  https://create.arduino.cc/projecthub/Arduino_Genuino/telegram-bot-library-ced4d4
 
+  Updated 19 May 2016
+  by Tommaso Laterza
 
+  This example code is in the public domain.
+
+*/
 #include<WiFiSSLClient.h>
 #include <WiFi101.h>
 #include <SPI.h>
@@ -59,5 +65,4 @@ void loop() {
       Serial.println("no new message");
     }
 
-    delay(2000);
 }

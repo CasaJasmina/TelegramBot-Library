@@ -2,9 +2,17 @@
   EchoBot
 
   This example shows how to program a Telegram Bot
-  that echoes your messages.
+  that echoes your messages using a custom keyboard.
 
- */
+  For a step-by-step tutorial visit:
+  https://create.arduino.cc/projecthub/Arduino_Genuino/telegram-bot-library-ced4d4
+
+  Updated 19 May 2016
+  by Tommaso Laterza
+
+  This example code is in the public domain.
+
+*/
 
 
 #include<WiFiSSLClient.h>
@@ -57,7 +65,7 @@ void setup() {
 void loop() {
 
   message m = bot.getUpdates(); // Read new messages
-  if ( m.chat_id != 0 ){ // Checks if there are some updates
+  if ( m.chat_id != 0 ) { // Checks if there are some updates
     Serial.println(m.text);
     bot.sendMessage(m.chat_id, m.text, keyboard_one);  // Reply to the same chat with the same text
   } else {
