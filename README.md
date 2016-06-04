@@ -32,10 +32,10 @@ For full details, see "[Bots: An introduction for developers](https://core.teleg
 TelegramBot(const char* token, const char* name, const char* username, Client &client);
 ```
 ```c++
-String sendMessage(const char* chat_id, const char* my_text);
+String sendMessage(String chat_id, String my_text);
 ```
 ```c++
-String sendMessage(const char* chat_id, const char* my_text, Keyboard keyboard, bool one_time_keyboard = true, bool resize_keyboard = true);
+String sendMessage(String chat_id, String my_text, Keyboard keyboard, bool one_time_keyboard = true, bool resize_keyboard = true);
 ```
 ```c++
 String postMessage(String msg);

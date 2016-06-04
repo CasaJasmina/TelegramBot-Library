@@ -44,16 +44,17 @@ message TelegramBot::getUpdates()  {
 			if(last_message_recived != update_id){
 				String sender = root["result"][1]["message"]["from"]["username"];
 				String text = root["result"][1]["message"]["text"];
-				m.chat_id = root["result"][1]["message"]["chat"]["id"];
+				String chat_id = root["result"][1]["message"]["chat"]["id"];
 				String date = root["result"][1]["message"]["date"];
 
 				m.sender = sender;
 				m.text = text;
+				m.chat_id = chat_id;
 				m.date = date;
 				last_message_recived=update_id;
 				return m;
 			}else{
-				m.chat_id = 0;
+				m.chat_id = "";
 				return m;
 			}
 		}
@@ -61,7 +62,7 @@ message TelegramBot::getUpdates()  {
 
 // send message function
 // send a simple text message to a telegram char
-String TelegramBot::sendMessage(int chat_id, String text)  {
+String TelegramBot::sendMessage(String chat_id, String text)  {
 		StaticJsonBuffer<JSON_BUFF_SIZE> jsonBuffer;
 		JsonObject& buff = jsonBuffer.createObject();
 		buff["chat_id"] = chat_id;
@@ -73,7 +74,7 @@ String TelegramBot::sendMessage(int chat_id, String text)  {
 	}
 
 // send a message to a telegram chat with a reply markup
-String TelegramBot::sendMessage(int chat_id, String text, TelegramKeyboard &keyboard_markup, bool one_time_keyboard, bool resize_keyboard)  {
+String TelegramBot::sendMessage(String chat_id, String text, TelegramKeyboard &keyboard_markup, bool one_time_keyboard, bool resize_keyboard)  {
 		StaticJsonBuffer<JSON_BUFF_SIZE> jsonBuffer;
 		JsonObject& buff = jsonBuffer.createObject();
 		buff["chat_id"] = chat_id;
