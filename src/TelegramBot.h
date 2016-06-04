@@ -26,7 +26,7 @@ struct message{
 class TelegramBot
 {
   public:
-    TelegramBot(const char* token, const char* name, const char* username, Client &client);
+    TelegramBot(const char* token, Client &client);
   	void begin();
     String sendMessage(int chat_id, String text);
     String sendMessage(int chat_id, String text, TelegramKeyboard &keyboard_markup, bool one_time_keyboard = true, bool resize_keyboard = true);
@@ -36,8 +36,6 @@ class TelegramBot
   private:
       String readPayload();
       const char* token;
-      const char* name;
-      const char* username;
 
       int last_message_recived;
 
