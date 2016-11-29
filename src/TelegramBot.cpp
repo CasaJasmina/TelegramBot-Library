@@ -13,9 +13,8 @@ TelegramBot::TelegramBot(const char* token, Client &client)	{
 }
 
 void TelegramBot::begin()	{
-	while(!client->connected()){
+	if(!client->connected()){
 		client->connect(HOST, SSL_PORT);
-		delay (2000);
 	}
 }
 
@@ -85,7 +84,6 @@ String TelegramBot::sendMessage(String chat_id, String text, TelegramKeyboard &k
 			JsonArray& row = keyboard.createNestedArray();
 				for( int b = 1; b <= keyboard_markup.rowSize(a) ; b++){
 					row.add(keyboard_markup.getButton(a,b));
-					Serial.println(b);
 				}
 		}
 
