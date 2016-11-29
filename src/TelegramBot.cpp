@@ -7,11 +7,9 @@
 
 #include "TelegramBot.h"
 
-TelegramBot::TelegramBot(const char* token, const char* name, const char* username, Client &client)	{
+TelegramBot::TelegramBot(const char* token, Client &client)	{
 	this->client = &client;
 	this->token=token;
-	this->name=name;
-	this->username=username;
 }
 
 void TelegramBot::begin()	{

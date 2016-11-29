@@ -27,11 +27,9 @@ char pass[] = "yyyy";           // your network key
 
 // Initialize Telegram BOT
 const char BotToken[] = "xxxx";
-const char BotName[] = "yyyy";
-const char BotUsername[] = "zzzz";
 
 WiFiSSLClient client;
-TelegramBot bot (BotToken, BotName, BotUsername, client);
+TelegramBot bot (BotToken, client);
 TelegramKeyboard keyboard_one;
 
 void setup() {
