@@ -52,6 +52,19 @@ struct message{
   const char* date;
 };
 ```
+## Groups implementation
+
+When the bot is included in a group it will be, by default, in privacy mode. Which means that it will receive only messages starting with "/", the so called commands.
+In order to disable the privacy mode you have to chat with BotFather and use this commands:
+
+```
+/mybots
+@yourBot
+Bot setting
+Group privacy
+Turn off
+```
+You can also create your own list of commands using /setcommands while chatting with the BotFather. This list will appear only in the mobile view, pressing the "/" icon.
 
 ## License
 
