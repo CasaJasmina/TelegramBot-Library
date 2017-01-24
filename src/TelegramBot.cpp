@@ -1,4 +1,4 @@
-
+// Official
 // Copyright Casa Jasmina 2016
 // LGPL License
 //
@@ -25,7 +25,7 @@ message TelegramBot::getUpdates()  {
 		begin();
 
 		//Send your request to api.telegram.org
-		String getRequest = "GET /bot"+String(token)+"/getUpdates?offset="+String(last_message_recived)+" HTTP/1.1";
+		String getRequest = "GET /bot"+String(token)+"/getUpdates?limit=1&offset="+String(last_message_recived)+" HTTP/1.1";
 		client->println(getRequest);
 		client->println("User-Agent: curl/7.37.1");
 		client->println("Host: api.telegram.org");
@@ -37,12 +37,12 @@ message TelegramBot::getUpdates()  {
 			message m;
 			StaticJsonBuffer<JSON_BUFF_SIZE> jsonBuffer;
 			JsonObject & root = jsonBuffer.parseObject(payload);
-			int update_id = root["result"][1]["update_id"];
+			int update_id = root["result"][0]["update_id"];
 			if(last_message_recived != update_id){
-				String sender = root["result"][1]["message"]["from"]["username"];
-				String text = root["result"][1]["message"]["text"];
-				String chat_id = root["result"][1]["message"]["chat"]["id"];
-				String date = root["result"][1]["message"]["date"];
+				String sender = root["result"][0]["message"]["from"]["username"];
+				String text = root["result"][0]["message"]["text"];
+				String chat_id = root["result"][0]["message"]["chat"]["id"];
+				String date = root["result"][0]["message"]["date"];
 
 				m.sender = sender;
 				m.text = text;
@@ -60,6 +60,7 @@ message TelegramBot::getUpdates()  {
 // send message function
 // send a simple text message to a telegram char
 String TelegramBot::sendMessage(String chat_id, String text)  {
+	if(chat_id!="0" && chat_id!=""){
 		StaticJsonBuffer<JSON_BUFF_SIZE> jsonBuffer;
 		JsonObject& buff = jsonBuffer.createObject();
 		buff["chat_id"] = chat_id;
@@ -68,7 +69,10 @@ String TelegramBot::sendMessage(String chat_id, String text)  {
 		String msg;
 		buff.printTo(msg);
 		return postMessage(msg);
+	} else {
+		Serial.println("Chat_id not defined");
 	}
+}
 
 // send a message to a telegram chat with a reply markup
 String TelegramBot::sendMessage(String chat_id, String text, TelegramKeyboard &keyboard_markup, bool one_time_keyboard, bool resize_keyboard)  {

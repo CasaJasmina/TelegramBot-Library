@@ -14,7 +14,7 @@
 
 #define HOST "api.telegram.org"
 #define SSL_PORT 443
-#define JSON_BUFF_SIZE 10000
+#define JSON_BUFF_SIZE 1000
 
 struct message{
   String text;
