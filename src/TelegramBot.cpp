@@ -38,6 +38,7 @@ message TelegramBot::getUpdates()  {
 			StaticJsonBuffer<JSON_BUFF_SIZE> jsonBuffer;
 			JsonObject & root = jsonBuffer.parseObject(payload);
 			int update_id = root["result"][0]["update_id"];
+			update_id = update_id+1;
 			if(last_message_recived != update_id){
 				String sender = root["result"][0]["message"]["from"]["username"];
 				String text = root["result"][0]["message"]["text"];
