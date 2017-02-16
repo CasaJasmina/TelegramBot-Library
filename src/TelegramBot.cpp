@@ -12,6 +12,7 @@ TelegramBot::TelegramBot(const char* token, Client &client)	{
 	this->token=token;
 }
 
+
 void TelegramBot::begin()	{
 	if(!client->connected()){
 		client->connect(HOST, SSL_PORT);
@@ -37,22 +38,44 @@ message TelegramBot::getUpdates()  {
 			message m;
 			StaticJsonBuffer<JSON_BUFF_SIZE> jsonBuffer;
 			JsonObject & root = jsonBuffer.parseObject(payload);
-			int update_id = root["result"][0]["update_id"];
-			if(last_message_recived != update_id){
-				String sender = root["result"][0]["message"]["from"]["username"];
-				String text = root["result"][0]["message"]["text"];
-				String chat_id = root["result"][0]["message"]["chat"]["id"];
-				String date = root["result"][0]["message"]["date"];
 
-				m.sender = sender;
-				m.text = text;
-				m.chat_id = chat_id;
-				m.date = date;
-				last_message_recived=update_id;
-				return m;
-			}else{
-				m.chat_id = "";
-				return m;
+
+
+			if(root.success()){
+
+				int update_id = root["result"][0]["update_id"];
+				update_id = update_id+1;
+
+				if(last_message_recived != update_id ){
+					String sender = root["result"][0]["message"]["from"]["username"];
+					String text = root["result"][0]["message"]["text"];
+					String chat_id = root["result"][0]["message"]["chat"]["id"];
+					String date = root["result"][0]["message"]["date"];
+
+					m.sender = sender;
+					m.text = text;
+					m.chat_id = chat_id;
+					m.date = date;
+					last_message_recived=update_id;
+					return m;
+				}else{
+					m.chat_id = "";
+					return m;
+				}
+			}
+			else{
+				Serial.println("");
+				Serial.println("Message too long, skipped.");
+				Serial.println("");
+				int update_id_first_digit=0;
+				int update_id_last_digit=0;
+				for(int a =0; a<3; a++){
+					update_id_first_digit= payload.indexOf(':',update_id_first_digit+1);
+				}
+				for(int a =0; a<2; a++){
+					update_id_last_digit= payload.indexOf(',',update_id_last_digit+1);
+				}
+			last_message_recived = payload.substring(update_id_first_digit+1,update_id_last_digit).toInt() +1;
 			}
 		}
 	}

@@ -14,7 +14,14 @@
 
 #define HOST "api.telegram.org"
 #define SSL_PORT 443
+
+#ifndef JSON_BUFF_SIZE
+#ifdef ESP8266
 #define JSON_BUFF_SIZE 1000
+#else
+#define JSON_BUFF_SIZE 10000
+#endif
+#endif
 
 struct message{
   String text;
@@ -36,7 +43,6 @@ class TelegramBot
   private:
       String readPayload();
       const char* token;
-
       int last_message_recived;
 
       Client *client;
