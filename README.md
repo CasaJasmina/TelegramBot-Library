@@ -66,6 +66,10 @@ Turn off
 ```
 You can also create your own list of commands using /setcommands while chatting with the BotFather. This list will appear only in the mobile view, pressing the "/" icon.
 
+## Dependancies
+
+If you are using the library [Adafruit sleepy dog](https://github.com/adafruit/Adafruit_SleepyDog) in its 1.1.1 (or later) version, you have also to download the [Adafruit_ASFcore](https://github.com/adafruit/Adafruit_ASFcore) library.
+
 ## License
 
 You may copy, distribute and modify the software provided that modifications are described and licensed for free under [LGPL-3](http://www.gnu.org/licenses/lgpl-3.0.html). Derivatives works (including modifications or anything statically linked to the library) can only be redistributed under [LGPL-3](http://www.gnu.org/licenses/lgpl-3.0.html), but applications that use the library don't have to be.
