@@ -7,28 +7,29 @@
   For a step-by-step tutorial visit:
   https://create.arduino.cc/projecthub/Arduino_Genuino/telegram-bot-library-ced4d4
 
+  In oreder to make the bot more reliable in the long run we suggest using a watchdog
+  The Adafruit_SleepyDog is a handy library that will reset the board if something goes wrong
+
   Updated 29 May 2016
+  by Tommaso Laterza
+  Updated 13 February 2018
   by Tommaso Laterza
 
   This example code is in the public domain.
 
 */
 
+#include "arduino_secrets.h"
 #include <WiFi101.h>
 #include <SPI.h>
 #include <TelegramBot.h>
 
-//The SleepyDog library is needed to reset the board when something goes wrong.
-//It is not strictly necessary but makes the bot way more reliable.
-#include <Adafruit_SleepyDog.h> 
-
 // Initialize Wifi connection to the router
-char ssid[] = "xxxx";             // your network SSID (name)
-char pass[] = "yyyy";           // your network key
-
+char ssid[] = SECRET_SSID;             // your network SSID (name)
+char pass[] = SECRET_PASS;           // your network key
 
 // Initialize Telegram BOT
-const char BotToken[] = "xxxx";
+const char BotToken[] = SECRET_BOT_TOKEN;
 
 WiFiSSLClient client;
 TelegramBot bot (BotToken, client);
@@ -37,7 +38,7 @@ TelegramKeyboard keyboard_one;
 void setup() {
 
   Serial.begin(115200);
-  while (!Serial) {}
+  while (!Serial) {} // Wait for the Serial monitor to be opened
   delay(3000);
 
   // attempt to connect to Wifi network:
@@ -59,12 +60,9 @@ void setup() {
   keyboard_one.addRow(row_one, 2);
   keyboard_one.addRow(row_two, 4);
   bot.begin();
-  Watchdog.enable(10000); // set the timer to 10 sec
 }
 
 void loop() {
-
-  Watchdog.reset(); // if this function is not called within 10 seconds the board will reset itself
 
   message m = bot.getUpdates(); // Read new messages
   if ( m.chat_id != 0 ) { // Checks if there are some updates
