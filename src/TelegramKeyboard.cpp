@@ -10,7 +10,7 @@ TelegramKeyboard::TelegramKeyboard(){
 }
 
 void TelegramKeyboard::addRow(const char* row[], int length){
-    button* first;
+    button* first = new button();
     first->next = NULL;
 
     rows_length[nrows] = length;
