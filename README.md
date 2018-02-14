@@ -66,9 +66,9 @@ Turn off
 ```
 You can also create your own list of commands using /setcommands while chatting with the BotFather. This list will appear only in the mobile view, pressing the "/" icon.
 
-## Dependancies
+## Reliability
 
-If you are using the library [Adafruit sleepy dog](https://github.com/adafruit/Adafruit_SleepyDog) in its 1.1.1 (or later) version, you have also to download the [Adafruit_ASFcore](https://github.com/adafruit/Adafruit_ASFcore) library.
+In the long run we recommend to use a watchdog. If you are using the library [Adafruit sleepy dog](https://github.com/adafruit/Adafruit_SleepyDog) in its 1.1.1 (or later) version, you have also to download the [Adafruit_ASFcore](https://github.com/adafruit/Adafruit_ASFcore) library.
 
 ## License
 
