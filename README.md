@@ -11,7 +11,7 @@ It works on [Arduino/Genuino MKR1000] (http://www.arduino.cc/en/Main/ArduinoMKR1
 
 ## Installing
 
-The downloaded code can be included as a new library into the IDE selecting the menu:
+The library can be installed from the library manager or added manually selecting the menu:
 
      Sketch / include Library / Add .Zip library
 
@@ -29,7 +29,7 @@ For full details, see "[Bots: An introduction for developers](https://core.teleg
 
 ## Api Reference
 ```c++
-TelegramBot(const char* token, const char* name, const char* username, Client &client);
+TelegramBot(const char* token, Client &client);
 ```
 ```c++
 String sendMessage(String chat_id, String my_text);
