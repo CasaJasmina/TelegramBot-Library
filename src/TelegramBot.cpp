@@ -47,7 +47,7 @@ message TelegramBot::getUpdates()  {
 				update_id = update_id+1;
 
 				if(last_message_recived != update_id ){
-					String sender = root["result"][0]["message"]["from"]["username"];
+					String sender = root["result"][0]["message"]["from"]["first_name"];
 					String text = root["result"][0]["message"]["text"];
 					String chat_id = root["result"][0]["message"]["chat"]["id"];
 					String date = root["result"][0]["message"]["date"];
