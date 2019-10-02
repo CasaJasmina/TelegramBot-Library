@@ -36,21 +36,19 @@ message TelegramBot::getUpdates()  {
 		String payload = readPayload();
 	    if (payload != "") {
 			message m;
-			StaticJsonBuffer<JSON_BUFF_SIZE> jsonBuffer;
-			JsonObject & root = jsonBuffer.parseObject(payload);
+			StaticJsonDocument<JSON_BUFF_SIZE> jsonBuffer;
+			DeserializationError err = deserializeJson(jsonBuffer, payload);
 
+			if (err == DeserializationError::Ok) {
 
-
-			if(root.success()){
-
-				int update_id = root["result"][0]["update_id"];
+				int update_id = jsonBuffer["result"][0]["update_id"];
 				update_id = update_id+1;
 
 				if(last_message_recived != update_id ){
-					String sender = root["result"][0]["message"]["from"]["username"];
-					String text = root["result"][0]["message"]["text"];
-					String chat_id = root["result"][0]["message"]["chat"]["id"];
-					String date = root["result"][0]["message"]["date"];
+					String sender = jsonBuffer["result"][0]["message"]["from"]["username"];
+					String text = jsonBuffer["result"][0]["message"]["text"];
+					String chat_id = jsonBuffer["result"][0]["message"]["chat"]["id"];
+					String date = jsonBuffer["result"][0]["message"]["date"];
 
 					m.sender = sender;
 					m.text = text;
@@ -84,13 +82,12 @@ message TelegramBot::getUpdates()  {
 // send a simple text message to a telegram char
 String TelegramBot::sendMessage(String chat_id, String text)  {
 	if(chat_id!="0" && chat_id!=""){
-		StaticJsonBuffer<JSON_BUFF_SIZE> jsonBuffer;
-		JsonObject& buff = jsonBuffer.createObject();
-		buff["chat_id"] = chat_id;
-		buff["text"] = text;
+		StaticJsonDocument<JSON_BUFF_SIZE> jsonBuffer;
+		jsonBuffer["chat_id"] = chat_id;
+		jsonBuffer["text"] = text;
 
 		String msg;
-		buff.printTo(msg);
+		serializeJson(jsonBuffer, msg);
 		return postMessage(msg);
 	} else {
 		Serial.println("Chat_id not defined");
@@ -99,27 +96,26 @@ String TelegramBot::sendMessage(String chat_id, String text)  {
 
 // send a message to a telegram chat with a reply markup
 String TelegramBot::sendMessage(String chat_id, String text, TelegramKeyboard &keyboard_markup, bool one_time_keyboard, bool resize_keyboard)  {
-		StaticJsonBuffer<JSON_BUFF_SIZE> jsonBuffer;
-		JsonObject& buff = jsonBuffer.createObject();
-		buff["chat_id"] = chat_id;
-		buff["text"] = text;
+		StaticJsonDocument<JSON_BUFF_SIZE> jsonBuffer;
+		jsonBuffer["chat_id"] = chat_id;
+		jsonBuffer["text"] = text;
 
-		JsonObject& reply_markup = buff.createNestedObject("reply_markup");
-		JsonArray& keyboard = reply_markup.createNestedArray("keyboard");
+		JsonObject reply_markup = jsonBuffer.createNestedObject("reply_markup");
+		JsonArray keyboard = reply_markup.createNestedArray("keyboard");
 
 		for (int a = 1 ; a <= keyboard_markup.length() ; a++){
-			JsonArray& row = keyboard.createNestedArray();
+			JsonArray row = keyboard.createNestedArray();
 				for( int b = 1; b <= keyboard_markup.rowSize(a) ; b++){
 					row.add(keyboard_markup.getButton(a,b));
 				}
 		}
 
-		reply_markup.set<bool>("one_time_keyboard", one_time_keyboard);
-		reply_markup.set<bool>("resize_keyboard", resize_keyboard);
-		reply_markup.set<bool>("selective", false);
+		reply_markup["one_time_keyboard"].set(one_time_keyboard);
+		reply_markup["resize_keyboard"].set(resize_keyboard);
+		reply_markup["selective"].set(false);
 
 		String msg;
-		buff.printTo(msg);
+		serializeJson(jsonBuffer, msg);
 		// Serial.println(msg);
 		return postMessage(msg);
 }
