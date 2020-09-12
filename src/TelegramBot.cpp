@@ -12,7 +12,6 @@ TelegramBot::TelegramBot(const char* token, Client &client)	{
 	this->token=token;
 }
 
-
 void TelegramBot::begin()	{
 	if(!client->connected()){
 		client->connect(HOST, SSL_PORT);
@@ -132,13 +131,12 @@ String TelegramBot::postMessage(String msg) {
 
 		client->println("POST /bot"+String(token)+"/sendMessage"+" HTTP/1.1");
 		client->println("Host: api.telegram.org");
-	    client->println("Content-Type: application/json");
-	    client->println("Connection: close");
-	    client->print("Content-Length: ");
-	    client->println(msg.length());
-	    client->println();
-	    client->println(msg);
-
+		client->println("Content-Type: application/json");
+		client->println("Connection: close");
+		client->print("Content-Length: ");
+		client->println(msg.length());
+		client->println();
+		client->println(msg);
 		return readPayload();
 }
 
