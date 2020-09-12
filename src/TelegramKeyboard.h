@@ -4,7 +4,6 @@
 // TelegramBot library
 // https://github.com/CasaJasmina/TelegramBot-Library
 
-
 #ifndef TelegramKeyboard_h
 #define TelegramKeyboard_h
 #include <Arduino.h>

@@ -7,15 +7,21 @@
 
 #include "TelegramBot.h"
 
-TelegramBot::TelegramBot(const char* token, Client &client)	{
+TelegramBot::TelegramBot(const char* token, WiFiClientSecure &client)	{
 	this->client = &client;
 	this->token=token;
 }
 
-
-void TelegramBot::begin()	{
+void TelegramBot::begin()	{ 
 	if(!client->connected()){
-		client->connect(HOST, SSL_PORT);
+        client->setInsecure();
+  
+		if(!client->connect(HOST, SSL_PORT)){
+           Serial.println("Connection failed.");
+		}
+        else{
+           Serial.println("Connected");
+        }
 	}
 }
 
@@ -38,8 +44,6 @@ message TelegramBot::getUpdates()  {
 			message m;
 			StaticJsonBuffer<JSON_BUFF_SIZE> jsonBuffer;
 			JsonObject & root = jsonBuffer.parseObject(payload);
-
-
 
 			if(root.success()){
 
