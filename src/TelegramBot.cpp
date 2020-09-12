@@ -7,7 +7,7 @@
 
 #include "TelegramBot.h"
 
-TelegramBot::TelegramBot(const char* token, Client &client)	{
+TelegramBot::TelegramBot(const char* token, WiFiClientSecure &client)	{
 	this->client = &client;
 	this->token=token;
 }
