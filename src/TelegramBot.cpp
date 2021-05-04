@@ -7,7 +7,7 @@
 
 #include "TelegramBot.h"
 
-TelegramBot::TelegramBot(const char* token, Client &client)	{
+TelegramBot::TelegramBot(const char* token, WiFiClientSecure &client)	{
 	this->client = &client;
 	this->token=token;
 }
@@ -15,7 +15,13 @@ TelegramBot::TelegramBot(const char* token, Client &client)	{
 
 void TelegramBot::begin()	{
 	if(!client->connected()){
-		client->connect(HOST, SSL_PORT);
+		client->setInsecure();
+		if(!client->connect(HOST, SSL_PORT)){
+           Serial.println("Connection failed.");
+		}
+        else{
+           Serial.println("Connected");
+        }
 	}
 }
 
