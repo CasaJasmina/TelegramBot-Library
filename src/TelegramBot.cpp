@@ -17,10 +17,10 @@ void TelegramBot::begin()	{
 	if(!client->connected()){
 		client->setInsecure();
 		if(!client->connect(HOST, SSL_PORT)){
-           Serial.println("Connection failed.");
+           Serial.println("Connection to Telegram failed.");
 		}
         else{
-           Serial.println("Connected");
+           Serial.println("Connected to Telegram");
         }
 	}
 }
