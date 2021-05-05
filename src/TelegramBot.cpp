@@ -20,7 +20,7 @@ void TelegramBot::begin()	{
            Serial.println("Connection to Telegram failed.");
 		}
         else{
-           Serial.println("Connected to Telegram");
+           Serial.println("Connected to Telegram.");
         }
 	}
 }
@@ -91,6 +91,7 @@ String TelegramBot::sendMessage(String chat_id, String text)  {
 		StaticJsonDocument<JSON_BUFF_SIZE> jsonBuffer;
 		jsonBuffer["chat_id"] = chat_id;
 		jsonBuffer["text"] = text;
+		jsonBuffer["parse_mode"] = "MarkdownV2";
 
 		String msg;
 		serializeJson(jsonBuffer, msg);
