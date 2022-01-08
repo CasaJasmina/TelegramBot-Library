@@ -15,8 +15,8 @@ The library can be installed from the library manager or added manually selectin
 
      Sketch / include Library / Add .Zip library
 
-You also have to install the ArduinoJson library written by [Benoît Blanchon](https://github.com/bblanchon).
-Available [here](https://github.com/bblanchon/ArduinoJson).
+You also have to install the ArduinoJson v6.x library written by [Benoît Blanchon](https://github.com/bblanchon).
+Available [here](https://github.com/bblanchon/ArduinoJson). Platformio does it automatically.
 
 
 ## Getting started
